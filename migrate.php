@@ -14,6 +14,12 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
+if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
+    throw new Exception('Please run "composer install" first');
+}
+require __DIR__ . '/vendor/autoload.php';
+
+
 // fix date issues
 if (function_exists('date_default_timezone_set'))
 {
@@ -30,14 +36,28 @@ define('MPM_PATH', dirname(__FILE__));
  */
 define('MPM_VERSION', '2.1.8');
 
-/**
- * Include the init script.
- */
-require_once(MPM_PATH . '/lib/init.php');
+if (file_exists(MPM_PATH . '/config/db_config.php'))
+{
+    /**
+     * Include the database connection info.
+     */
+    $config = require_once(MPM_PATH . '/config/db_config.php');
+}else {
+    exit('Configuration file is not found' . PHP_EOL);
+}
+
+if (!defined('STDIN'))
+{
+    /**
+     * In some cases STDIN built-in can be undefined
+     */
+    define('STDIN', fopen("php://stdin","r"));
+}
 
 // get the proper controller, do the action, and exit the script
-$obj = MpmControllerFactory::getInstance($argv);
-$obj->doAction();
-exit;
+array_shift($argv);
 
-?>
+\MPM\MPM::init($config);
+\MPM\MPM::execute($argv);
+
+exit;

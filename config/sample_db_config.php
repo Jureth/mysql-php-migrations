@@ -3,12 +3,15 @@
  * Copy this file to be "db_config.php" and fill in the fields below
  */
 
-$db_config = (object) array();
-$db_config->host = 'localhost';
-$db_config->port = '3306';
-$db_config->user = '';
-$db_config->pass = '';
-$db_config->name = '';
-$db_config->db_path = '';
-$db_config->method = 1;
-$db_config->migrations_table = '';
+return array(
+//    'dsn' => 'mysql:dbname=;host=localhost;port=3306',
+    'database' => '',
+//    'host' => 'localhost',
+//    'port' => '3306',
+    'user' => '',
+    'password' => '',
+    'migrations_path' => '',
+//    'migrations_table' => 'mpm_migrations',
+//    'method' => \MPM\MPM::METHOD_PDO,
+
+);

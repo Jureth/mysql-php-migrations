@@ -4,5 +4,11 @@
         "php": ">=5.3.2",
         "ext-pdo": "*"
     },
-    "bin": ["migrate.php"]
+    "autoload": {
+        "psr-4": {
+            "MPM\\": [
+                "lib"
+            ]
+        }
+    }
 }

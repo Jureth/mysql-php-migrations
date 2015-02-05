@@ -1,6 +1,6 @@
 <?php
 /**
- * This file houses the MpmInitialSchema class.
+ * This file houses the InitialSchema class.
  *
  * This file may be deleted if you do not wish to use the build command or build on init features.
  *
@@ -9,14 +9,15 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php  The New BSD License
  * @link       http://code.google.com/p/mysql-php-migrations/
  */
+use MPM\Classes\Schema;
 
 /**
- * The MpmInitialSchema class is used to build an initial database structure.
+ * The InitialSchema class is used to build an initial database structure.
  *
  * @package    mysql_php_migrations
  * @subpackage Classes
  */
-class MpmInitialSchema extends MpmSchema
+class InitialSchema extends Schema
 {
 
 	public function __construct()
@@ -38,7 +39,7 @@ class MpmInitialSchema extends MpmSchema
 
 	public function build()
  	{
-		/* Add the queries needed to build the initial structure of your database.
+		/* AddController the queries needed to build the initial structure of your database.
 		*
 		* EX:
 		*
