@@ -42,13 +42,15 @@ class DownController extends ActionController
 
         // correct number of command line arguments?
         if (count($this->arguments) == 0) {
-            return $this->displayHelp();
+            $this->displayHelp();
+            return;
         }
 
         // ID of the migration we are going down to
         $down_to = $this->arguments[0];
         if (!is_numeric($down_to)) {
-            return $this->displayHelp();
+            $this->displayHelp();
+            return ;
         }
         if ($down_to == 0) {
             $down_to = -1;
@@ -62,8 +64,6 @@ class DownController extends ActionController
 
         // get list of migrations and the current migration number
         $list = MigrationHelper::getListOfMigrations($down_to, 'down');
-        $total = count($list);
-        $current = MigrationHelper::getCurrentMigrationNumber();
 
         if ($down_to == '-1') {
             echo "Removing all migrations... ";

@@ -10,7 +10,6 @@
 namespace MPM\Controllers;
 use Exception;
 use MPM\Classes\CommandLineWriter;
-use MPM\Helpers\AutoloadHelper;
 use MPM\Helpers\StringHelper;
 
 /**
@@ -34,17 +33,19 @@ class HelpController extends BaseController
     public function doAction()
     {
         if (count($this->arguments) == 0) {
-            return $this->displayHelp();
+            $this->displayHelp();
+            return;
         } else {
             $controller_name = $this->arguments[0];
             $class_name = ucwords(StringHelper::strToCamel('mpm_' . strtolower($controller_name) . '_controller'));
             try {
-                AutoloadHelper::load($class_name);
+                /** @var BaseController $obj */
+                $obj = new $class_name();
+                $obj->displayHelp();
             } catch (Exception $e) {
-                return $this->displayHelp();
+                $this->displayHelp();
             }
-            $obj = new $class_name();
-            return $obj->displayHelp();
+            return;
         }
     }
 

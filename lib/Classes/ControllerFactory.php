@@ -10,7 +10,6 @@
 
 namespace MPM\Classes;
 use MPM\Exceptions\ClassUndefinedException;
-use MPM\Helpers\StringHelper;
 use MPM\Controllers\BaseController;
 
 /**
@@ -35,11 +34,15 @@ class ControllerFactory
         if ($controller_name == null) {
             $controller_name = 'help';
         }
-        $class_name = '\MPM\Controllers\\' . ucwords($controller_name) . 'Controller';
+        $class_name = self::BuildClassName($controller_name);
         if (!class_exists($class_name)) {
             throw new ClassUndefinedException('Class ' . $class_name . ' not found');
         }
         return new $class_name($controller_name, $argv);
+    }
+
+    public static function BuildClassName($name) {
+        return '\MPM\Controllers\\' . ucwords($name) . 'Controller';
     }
 
 }

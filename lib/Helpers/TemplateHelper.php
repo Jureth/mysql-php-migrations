@@ -10,7 +10,6 @@
 
 namespace MPM\Helpers;
 use MPM\MPM;
-use stdClass;
 
 /**
  * The TemplateHelper class is a very basic templating class which enables custom migration, schema, test data files as well as a custom header.

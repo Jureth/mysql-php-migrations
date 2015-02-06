@@ -4,6 +4,7 @@ namespace MPM\Controllers;
 use MPM\Classes\CommandLineWriter;
 use MPM\Helpers\MigrationHelper;
 use MPM\Helpers\StringHelper;
+use MPM\MPM;
 use ReflectionClass;
 
 /**
@@ -115,6 +116,7 @@ class DetailsController extends ActionController
      * Grabs and parses the migration classes docblock comment using reflection
      * to find an @migration tag.
      *
+     * @param \ReflectionClass $reflection
      * @return string The text of the @migration tag from the migration's docblock
      */
     private function _getMigrationComment($reflection)
@@ -158,6 +160,7 @@ class DetailsController extends ActionController
             $this->_error = self::ARG_MISSING_MIGRATION;
             return true;
         }
+        return false;
     }
 
     /**

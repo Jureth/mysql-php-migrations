@@ -48,5 +48,3 @@ class InitialSchema extends Schema
 	}
 
 }
-
-?>

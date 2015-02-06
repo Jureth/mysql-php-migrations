@@ -109,8 +109,6 @@ class CommandLineWriter
         $start = count($lines) - 1;
         for ($i = $start; $i >= 0; $i--) {
             $line = $lines[$i];
-            $a = $this->maxWidth - strlen($line);
-            $indent = floor($a / 2);
             $txt = (object)array();
             $txt->text = $line;
             $txt->indent = 0;

@@ -9,9 +9,7 @@
  */
 namespace MPM\Controllers;
 use MPM\Classes\CommandLineWriter;
-use MPM\Controllers\BaseController;
 use MPM\Helpers\DbHelper;
-use MPM\Helpers\ListHelper;
 use MPM\Helpers\MigrationHelper;
 
 /**
@@ -46,9 +44,6 @@ class StatusController extends ActionController
 
         // get latest number
         $num = MigrationHelper::getCurrentMigrationNumber();
-
-        // get list of migrations
-        $list = ListHelper::getFullList();
 
         // get command line writer
         $clw = CommandLineWriter::getInstance();

@@ -9,7 +9,6 @@
  */
 namespace MPM\Controllers;
 use MPM\Classes\CommandLineWriter;
-use MPM\Controllers\BaseController;
 use MPM\Helpers\ListHelper;
 use MPM\Helpers\MigrationHelper;
 

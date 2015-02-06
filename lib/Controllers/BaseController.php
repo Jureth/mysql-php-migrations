@@ -9,8 +9,6 @@
  */
 
 namespace MPM\Controllers;
-use MPM\Helpers\ListHelper;
-use MPM\Helpers\DbHelper;
 
 /**
  * The BaseController is the abstract parent class to all other controllers.
@@ -41,9 +39,9 @@ abstract class BaseController
      * @uses MpmDbHelper::test()
      * @uses MpmListHelper::mergeFilesWithDb()
      *
+     * @param string $command
      * @param array $arguments an array of command line arguments (minus the first two elements which should already be shifted off from the ControllerFactory)
      *
-     * @return BaseController
      */
     public function __construct($command = 'help', $arguments = array())
     {

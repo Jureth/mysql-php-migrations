@@ -13,7 +13,6 @@ use MPM\Classes\CommandLineWriter;
 use MPM\Classes\ExceptionalMysqli;
 use MPM\Exceptions\DatabaseConnectionException;
 use MPM\MPM;
-use obj;
 use PDO;
 
 /**
@@ -101,7 +100,7 @@ class DbHelper
      * @param string $sql a SELECT query that returns exactly 1 row of data
      * @param object $db a PDO or ExceptionalMysqli object that can be used to run the query
      *
-     * @return obj
+     * @return \stdClass
      */
     static public function doSingleRowSelect($sql, &$db = null)
     {
@@ -111,10 +110,12 @@ class DbHelper
             }
             switch (DbHelper::getMethod()) {
                 case MPM::METHOD_PDO:
+                    /** @var PDO $db */
                     $stmt = $db->query($sql);
                     $obj = $stmt->fetch(PDO::FETCH_OBJ);
                     return $obj;
                 case MPM::METHOD_MYSQLi:
+                    /** @var \mysqli $db */
                     $stmt = $db->query($sql);
                     $obj = $stmt->fetch_object();
                     return $obj;

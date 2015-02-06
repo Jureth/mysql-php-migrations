@@ -8,9 +8,8 @@
  * @link       http://code.google.com/p/mysql-php-migrations/
  */
 namespace MPM\Helpers;
-use arrays;
+
 use Exception;
-use MPM\Helpers\StringHelper;
 use MPM\MPM;
 
 /**
@@ -45,12 +44,12 @@ class ListHelper
      * @param int $startIdx the start index number
      * @param int $total total number of records to return
      *
-     * @return arrays
+     * @return array
      */
     static function getFullList($startIdx = 0, $total = 30)
     {
         $migrations_table = MPM::getTable();
-        $list = array();
+
         $sql = "SELECT * FROM `{$migrations_table}` ORDER BY `timestamp`";
         if ($total > 0) {
             $sql .= " LIMIT $startIdx,$total";

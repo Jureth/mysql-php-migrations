@@ -45,13 +45,15 @@ class UpController extends ActionController
         }
 
         if (count($this->arguments) == 0) {
-            return $this->displayHelp();
+            $this->displayHelp();
+            return;
         }
 
         $up_to = $this->arguments[0];
 
         if (!is_numeric($up_to)) {
-            return $this->displayHelp();
+            $this->displayHelp();
+            return;
         }
 
         // are we forcing this?

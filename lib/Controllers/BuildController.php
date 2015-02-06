@@ -9,6 +9,9 @@
  */
 namespace MPM\Controllers;
 use MPM\Classes\CommandLineWriter;
+use MPM\Helpers\DbHelper;
+use MPM\Helpers\MigrationHelper;
+use MPM\Helpers\TemplateHelper;
 use MPM\MPM;
 
 /**
@@ -19,6 +22,7 @@ use MPM\MPM;
  */
 class BuildController extends ActionController
 {
+    private $forced = FALSE;
 
     /**
      * Determines what action should be performed and takes that action.
@@ -37,11 +41,9 @@ class BuildController extends ActionController
     public function doAction()
     {
         // make sure system is init'ed
-        MpmDbHelper::test();
+        DbHelper::test();
 
         $clw = CommandLineWriter::getInstance();
-
-        $forced = false;
 
         $with_data = false;
 
@@ -53,8 +55,8 @@ class BuildController extends ActionController
                 $clw->write();
                 exit;
             }
-            $file = MpmTemplateHelper::getTemplate('schema.txt');
-            $test_data_file = MpmTemplateHelper::getTemplate('test_data.txt');
+            $file = TemplateHelper::getTemplate('schema.txt');
+            $test_data_file = TemplateHelper::getTemplate('test_data.txt');
 
             $fp = fopen(MPM::getMigrationsPath() . '/schema.php', "w");
             if ($fp == false) {
@@ -88,7 +90,7 @@ class BuildController extends ActionController
         } else if (isset($this->arguments[0]) && $this->arguments[0] == 'with_data') {
             $with_data = true;
         } else if (isset($this->arguments[0]) && $this->arguments[0] == '--force') {
-            $forced = true;
+            $this->forced = true;
         }
 
         // make sure the schema file exists
@@ -106,7 +108,7 @@ class BuildController extends ActionController
 
         $clw->writeHeader();
 
-        if (!$forced) {
+        if (!$this->forced) {
             echo "\nWARNING:  IF YOU CONTINUE, ALL TABLES IN YOUR DATABASE WILL BE ERASED!";
             echo "\nDO YOU WANT TO CONTINUE? [y/N] ";
             $answer = fgets(STDIN);
@@ -151,22 +153,22 @@ class BuildController extends ActionController
         $obj->build();
         echo 'done.', "\n\n", 'Applying migrations... ';
         try {
-            $total_migrations = MpmMigrationHelper::getMigrationCount();
+            $total_migrations = MigrationHelper::getMigrationCount();
             if ($total_migrations == 0) {
                 echo "no migrations exist.";
             } else {
-                $to_id = MpmMigrationHelper::getLatestMigration();
-                $obj = new UpController('up', array($to_id, $forced));
-                $obj->doAction($quiet);
+                $to_id = MigrationHelper::getLatestMigration();
+                $obj = new UpController('up', array($to_id, $this->forced));
+                $obj->doAction();
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo "\n\nERROR: " . $e->getMessage() . "\n\n";
             exit;
         }
         if ($with_data) {
             require_once(MPM::getMigrationsPath() . '/test_data.php');
             echo "\n\nInserting test data... ";
-            $test_data_obj = new TestData();
+            $test_data_obj = new \TestData();
             $test_data_obj->build();
             echo 'done.';
         }

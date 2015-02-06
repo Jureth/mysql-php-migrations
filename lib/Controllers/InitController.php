@@ -43,8 +43,6 @@ class InitController extends BaseController
         $user = '';
         $dbname = '';
         $port = '';
-        $db_path = '';
-        $method = 0;
 
         $clw = CommandLineWriter::getInstance();
         $clw->writeHeader();
@@ -253,7 +251,7 @@ class InitController extends BaseController
                 echo "found.\n\n";
             }
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo "failure!\n\nUnable to complete initialization: " . $e->getMessage() . "\n\n";
             echo "Check your database settings and re-run init.\n\n";
             exit;
@@ -261,7 +259,7 @@ class InitController extends BaseController
 
         if (isset($doBuild) && $doBuild === true) {
             $obj = new BuildController();
-            $obj->build();
+            $obj->build(true);
             echo "\n\n";
         }
 

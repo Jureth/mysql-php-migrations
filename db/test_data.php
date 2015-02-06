@@ -31,5 +31,3 @@ class TestData extends Schema
 	}
 
 }
-
-?>

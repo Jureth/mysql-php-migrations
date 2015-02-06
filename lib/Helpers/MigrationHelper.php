@@ -42,7 +42,7 @@ class MigrationHelper
             $obj->exec($sql1);
             $obj->exec($sql2);
             $obj->exec('SET SQL_SAFE_UPDATES = 1');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $obj->rollback();
             echo "\n\tQuery failed!";
             echo "\n\t--- " . $e->getMessage();
@@ -63,10 +63,10 @@ class MigrationHelper
      * @uses MPM_DB_PATH
      *
      * @param object $obj a simple object with migration information (from a migration list)
-     * @param int &$total_migrations_run a running total of migrations run
+     * @param string $method
      * @param bool $forced if true, exceptions will not cause the script to exit
      *
-     * @return void
+     * @internal param int $total_migrations_run a running total of migrations run
      */
     static public function runMigration(&$obj, $method = 'up', $forced = false)
     {
@@ -100,7 +100,7 @@ class MigrationHelper
             $migration->$method($dbObj);
             $sql = "UPDATE `{$migrations_table}` SET `active` = '$active' WHERE `id` = {$obj->id}";
             $dbObj->exec($sql);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $dbObj->rollback();
             echo "failed!";
             echo "\n";
@@ -135,8 +135,10 @@ class MigrationHelper
         $sql1 = "SELECT COUNT(*) as total FROM `{$migrations_table}` WHERE `is_current` = 1";
         $sql2 = "SELECT `timestamp` FROM `{$migrations_table}` WHERE `is_current` = 1";
         $dbObj = DbHelper::getDbObj();
+        $latest = null;
         switch (DbHelper::getMethod()) {
             case MPM::METHOD_PDO:
+                /** @var \PDO $dbObj */
                 $stmt = $dbObj->query($sql1);
                 if ($stmt->fetchColumn() == 0) {
                     return false;
@@ -147,6 +149,7 @@ class MigrationHelper
                 $latest = $row['timestamp'];
                 break;
             case MPM::METHOD_MYSQLi:
+                /** @var \mysqli $dbObj */
                 $result = $dbObj->query($sql1);
                 $row = $result->fetch_object();
                 if ($row->total == 0) {
@@ -195,7 +198,7 @@ class MigrationHelper
                     while ($obj = $stmt->fetch(\PDO::FETCH_OBJ)) {
                         $list[$obj->id] = $obj;
                     }
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     echo "\n\nError: " . $e->getMessage() . "\n\n";
                     exit;
                 }
@@ -207,7 +210,7 @@ class MigrationHelper
                     while ($row = $results->fetch_object()) {
                         $list[$row->id] = $row;
                     }
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     echo "\n\nError: " . $e->getMessage() . "\n\n";
                     exit;
                 }
@@ -269,7 +272,7 @@ class MigrationHelper
                     }
                     break;
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo "\n\nERROR: " . $e->getMessage() . "\n\n";
             exit;
         }
@@ -323,7 +326,7 @@ class MigrationHelper
                     $mysqli->close();
                     break;
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo "\n\nERROR: " . $e->getMessage() . "\n\n";
             exit;
         }
@@ -360,7 +363,7 @@ class MigrationHelper
                     $count = $row->total;
                     break;
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo "\n\nERROR: " . $e->getMessage() . "\n\n";
             exit;
         }
@@ -396,7 +399,7 @@ class MigrationHelper
                     $to_id = $result->id;
                     break;
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo "\n\nERROR: " . $e->getMessage() . "\n\n";
             exit;
         }
@@ -439,7 +442,7 @@ class MigrationHelper
                     }
                     break;
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo "\n\nERROR: " . $e->getMessage() . "\n\n";
             exit;
         }
@@ -476,7 +479,7 @@ class MigrationHelper
                     $obj = $stmt->fetch_object();
                     break;
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo "\n\nERROR: " . $e->getMessage() . "\n\n";
             exit;
         }

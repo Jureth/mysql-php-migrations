@@ -10,10 +10,8 @@
 namespace MPM\Controllers;
 use Exception;
 use MPM\Classes\CommandLineWriter;
-use MPM\Controllers\BaseController;
 use MPM\Helpers\DbHelper;
 use MPM\Helpers\MigrationHelper;
-use MPM\Controllers\UpController;
 
 /**
  * The LatestController is used to migrate up to the latest version.
