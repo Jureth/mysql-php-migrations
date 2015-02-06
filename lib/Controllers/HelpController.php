@@ -10,6 +10,7 @@
 namespace MPM\Controllers;
 use Exception;
 use MPM\Classes\CommandLineWriter;
+use MPM\Classes\ControllerFactory;
 use MPM\Helpers\StringHelper;
 
 /**
@@ -37,7 +38,7 @@ class HelpController extends BaseController
             return;
         } else {
             $controller_name = $this->arguments[0];
-            $class_name = ucwords(StringHelper::strToCamel('mpm_' . strtolower($controller_name) . '_controller'));
+            $class_name = ControllerFactory::BuildClassName($controller_name);
             try {
                 /** @var BaseController $obj */
                 $obj = new $class_name();
