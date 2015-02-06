@@ -1,3 +1,9 @@
+= VERSION 2.2.0 =
+ * new: global namespace `MPM`
+ * new: PSR-4 paths and namespaces
+ * new: composer autoloader instead of custom one
+ * new: entry point class `\MPM\MPM` for php callers.
+
 = VERSION 2.1.4 =
   * fixed: incorporated bug fix from denis-bykov: STDIN built-in constant can be undefined causing the init controller to enter an infinite loop
   * fixed: removed test data from Schema.php and test_data.php

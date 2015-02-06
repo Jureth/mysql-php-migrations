@@ -2,7 +2,7 @@
 REQUIREMENTS:
 ------------------------------------------------------------------------------
 
-1) PHP 5.2.6+ (w/ CLI)
+1) PHP 5.3+ (w/ CLI)
 
 2) PDO_MySQL or MySQLi extension for PHP
 
@@ -32,5 +32,5 @@ For a list of commands and how to use them, run:
 *****
 
 For API documentation, a phpDocumentor INI file has been provided in the docs
-directory.  You will need to edit this to make changes specific to your 
+directory.  You will need to edit this to make changes specific to your
 installation.
